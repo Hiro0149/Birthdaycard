@@ -140,7 +140,20 @@
 
     const finalMessageText="最後まで見てくれてありがとう。\n"+"こんなワイだけど。。。\n"+"まだまだ一緒に、たくさん笑って、たくさん一緒の時間を共にしたいです";
 
-    let sceneIndex=0,photoIndex=0,noCount=0,noDestroyed=false,finalPromptTimer=null;
+    let sceneIndex=0,photoIndex=0,noCount=0,noDestroyed=false;
+
+    /* ── 写真プリロード ── */
+    const preloadedImages=[];
+    function preloadPhotos(){
+      photos.forEach(p=>{
+        [p.src,p.fallback].forEach(url=>{
+          if(!url)return;
+          const img=new Image();
+          img.src=url;
+          preloadedImages.push(img);
+        });
+      });
+    }
 
     const app=document.getElementById("app"),startScreen=document.getElementById("startScreen"),messageScreen=document.getElementById("messageScreen"),treasureScreen=document.getElementById("treasureScreen"),lineReturnScreen=document.getElementById("lineReturnScreen"),messageNo=document.getElementById("messageNo"),messageText=document.getElementById("messageText"),questionText=document.getElementById("questionText"),questionArea=document.getElementById("questionArea"),yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn"),hintText=document.getElementById("hintText"),effectLayer=document.getElementById("effectLayer"),burstLayer=document.getElementById("burstLayer"),photo=document.getElementById("photo"),photoFallback=document.getElementById("photoFallback");
 
@@ -148,7 +161,7 @@
 
     function startIntroBouquet(){const layer=document.getElementById("introBouquetLayer");if(!layer)return;const items=["🌸","🌷","🌼","💮","💖","✨"];for(let i=0;i<34;i++){setTimeout(()=>{if(!startScreen.classList.contains("active"))return;const p=document.createElement("div");p.className="introPetal";p.textContent=items[Math.floor(Math.random()*items.length)];p.style.left=Math.random()*100+"%";p.style.top="-50px";p.style.fontSize=17+Math.random()*16+"px";p.style.setProperty("--drift",Math.random()*180-90+"px");p.style.animationDuration=4.8+Math.random()*2.6+"s";layer.appendChild(p);setTimeout(()=>p.remove(),8000)},i*130)}setTimeout(()=>{if(startScreen.classList.contains("active"))startIntroBouquet()},4200)}
 
-    function startApp(){sceneIndex=0;const intro=document.getElementById("introBouquetLayer");if(intro)intro.innerHTML="";showScreen(messageScreen);renderScene()}
+    function startApp(){sceneIndex=0;preloadPhotos();const intro=document.getElementById("introBouquetLayer");if(intro)intro.innerHTML="";showScreen(messageScreen);renderScene()}
 
     function renderScene(){const s=scenes[sceneIndex];app.className="app "+s.theme;messageNo.textContent="MESSAGE "+(sceneIndex+1)+" / "+scenes.length;messageText.textContent=s.message;questionText.textContent=s.question;noCount=0;hintText.textContent="※NOは少し照れ屋です";resetButtons();startEffect(s.effect)}
 
@@ -180,13 +193,11 @@
 
     function openTreasure(){document.getElementById("treasureCard").style.display="none";document.getElementById("photoWrap").classList.add("active");document.getElementById("finalMessage").textContent=finalMessageText;showPhoto();smallFirework();burstHearts()}
 
-    function scheduleLineReturnIfLastPhoto(){if(finalPromptTimer)clearTimeout(finalPromptTimer);if(photoIndex===photos.length-1&&document.getElementById("photoWrap").classList.contains("active")){finalPromptTimer=setTimeout(()=>showLineReturnScreen(),3200)}}
-
     function showLineReturnScreen(){app.className="app theme-10";startEffect("final");showScreen(lineReturnScreen);smallFirework();burstHearts()}
 
-    function showPhoto(){const p=photos[photoIndex];photo.style.display="block";photoFallback.style.display="none";let triedFallback=false;photo.onload=()=>{photo.style.display="block";photoFallback.style.display="none"};photo.onerror=()=>{if(p.fallback&&!triedFallback){triedFallback=true;photo.src=p.fallback;return}photo.style.display="none";photoFallback.style.display="flex";photoFallback.textContent="写真ファイルがまだ見つかりません。\n"+p.src+" を index.html と同じフォルダに置いてください。"};photo.src=p.src;document.getElementById("photoCaption").textContent=p.caption;scheduleLineReturnIfLastPhoto()}
+    function showPhoto(){const p=photos[photoIndex];photo.style.display="block";photoFallback.style.display="none";let triedFallback=false;photo.onload=()=>{photo.style.display="block";photoFallback.style.display="none"};photo.onerror=()=>{if(p.fallback&&!triedFallback){triedFallback=true;photo.src=p.fallback;return}photo.style.display="none";photoFallback.style.display="flex";photoFallback.textContent="写真ファイルがまだ見つかりません。\n"+p.src+" を index.html と同じフォルダに置いてください。"};photo.src=p.src;document.getElementById("photoCaption").textContent=p.caption}
 
-    function nextPhoto(){if(photoIndex===photos.length-1){showLineReturnScreen();return}photoIndex++;showPhoto();burstHearts()}function prevPhoto(){if(finalPromptTimer)clearTimeout(finalPromptTimer);photoIndex=(photoIndex-1+photos.length)%photos.length;showPhoto();burstHearts()}
+    function nextPhoto(){if(photoIndex===photos.length-1){showLineReturnScreen();return}photoIndex++;showPhoto();burstHearts()}function prevPhoto(){photoIndex=(photoIndex-1+photos.length)%photos.length;showPhoto();burstHearts()}
 
     startIntroBouquet();
 
