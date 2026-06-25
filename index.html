@@ -54,21 +54,21 @@
     const scenes=[
       {message:"お誕生日おめでとう。\n三奈が生まれた奇跡の日だよ",question:"あ、ワイのメッセージ続くよ？",theme:"theme-1",effect:"hearts"},
       {message:"いつも本当にありがとう。\n三奈の気持ちにいつも感謝してます。",question:"ワイも想ってていいよね？",theme:"theme-2",effect:"flowers"},
-      {message:"何気ない時間も、\n三奈と一緒だと楽しいよ。",question:"一緒にいる時間、好きですよね？",theme:"theme-3",effect:"bubbles"},
+      {message:"何気ない時間も、\n三奈と一緒だと楽しいよ。",question:"一緒にいる時間、好きだよね？",theme:"theme-3",effect:"bubbles"},
       {message:"三奈の笑顔を見ると、\nそれだけで嬉しい気持ちになります。",question:"ワイの気持ち、伝わってるよね？",theme:"theme-4",effect:"stars"},
-      {message:"これまでの思い出は、\nワイにとって本当に大切な宝物だよ。",question:"ワイも三奈の宝物？",theme:"theme-5",effect:"shooting"},
+      {message:"三奈の存在は、\nワイにとって本当に大切な宝物だよ。",question:"ワイも三奈の宝物？",theme:"theme-5",effect:"shooting"},
       {message:"これからも一緒に、\n楽しいことをたくさん増やしたいよ",question:"これからもワイと一緒にいてくれるよね？",theme:"theme-6",effect:"flowers"},
       {message:"三奈は本当に可愛いい、\nとても素敵だし尊敬してるよ",question:"ワイも素敵？",theme:"theme-7",effect:"bubbles"},
       {message:"三奈と出会えた事が、\n本当に奇跡だと思ってるよ。",question:"これからも三奈を支えさせてくれる？",theme:"theme-8",effect:"fireworks"},
       {message:"三奈はワイにとって、\n世界一大切な存在だよ。",question:"ワイ三奈にとっても大切な存在でしょ？",theme:"theme-9",effect:"hearts"},
-      {message:"生まれてきてくれてありがとう。\n今日という日を、心から感謝します。。",question:"最後にもう一度。ワイのこと好きですか？",theme:"theme-10",effect:"final"}
+      {message:"生まれてきてくれてありがとう。\n今日という日を、心から感謝します。。",question:"ワイのこと好きですか？",theme:"theme-10",effect:"final"}
     ];
     const photos=[
       {src:"photo1.png",fallback:"photo1.jpg",caption:"大好きだよ"},
-      {src:"photo2.png",fallback:"photo2.jpg",caption:"アーイアイアイアイアイ"},
+      {src:"photo2.png",fallback:"photo2.jpg",caption:"運命の人"},
       {src:"photo3.png",fallback:"photo3.jpg",caption:"心から愛してます"}
     ];
-    const finalMessageText="最後まで見てくれてありがとう。\n"+"こんなワイだけど。。。\n"+"これからも一緒に、たくさん笑って、たくさん一緒の時間を共にしたいです";
+    const finalMessageText="最後まで見てくれてありがとう。\n"+"こんなワイだけど。。。\n"+"まだまだ一緒に、たくさん笑って、たくさん一緒の時間を共にしたいです";
     let sceneIndex=0,photoIndex=0,noCount=0,noDestroyed=false,finalPromptTimer=null;
     const app=document.getElementById("app"),startScreen=document.getElementById("startScreen"),messageScreen=document.getElementById("messageScreen"),treasureScreen=document.getElementById("treasureScreen"),lineReturnScreen=document.getElementById("lineReturnScreen"),messageNo=document.getElementById("messageNo"),messageText=document.getElementById("messageText"),questionText=document.getElementById("questionText"),questionArea=document.getElementById("questionArea"),yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn"),hintText=document.getElementById("hintText"),effectLayer=document.getElementById("effectLayer"),burstLayer=document.getElementById("burstLayer"),photo=document.getElementById("photo"),photoFallback=document.getElementById("photoFallback");
     function showScreen(t){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));t.classList.add("active")}
